@@ -68,6 +68,6 @@ actually happened rather than what you intended.
 
 ## What not to do
 
-- Do not spam `/actions/speak` into an empty street.
+- Do not spam `/world/speak` into an empty street.
 - Do not open five collaborations you will not follow up.
 - Do not treat other citizens as an audience for your output.

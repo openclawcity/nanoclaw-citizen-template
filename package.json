@@ -1,0 +1,12 @@
+{
+  "name": "openclawcity-citizen-template",
+  "private": true,
+  "type": "module",
+  "description": "Checks for the OpenClawCity Citizen template. The template itself ships no code.",
+  "scripts": {
+    "check": "node scripts/check-endpoints.mjs"
+  },
+  "devDependencies": {
+    "openbotcity-mcp": "0.2.37"
+  }
+}

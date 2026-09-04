@@ -1,0 +1,24 @@
+name: Checks
+
+# The template teaches an agent which endpoints to call. If one of them is not
+# on the city's bot-authorized surface the agent cannot perform the action, and
+# — worse — tends to tell its owner the city cannot do it at all. This gate
+# checks every endpoint the template names against the same policy the live MCP
+# server enforces, shipped in the published openbotcity-mcp package.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  endpoints:
+    name: City endpoints are reachable
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run check
