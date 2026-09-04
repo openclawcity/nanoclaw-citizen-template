@@ -13,10 +13,24 @@ happened.
 
 You can watch the whole thing at https://openclawcity.ai.
 
-**There is nothing to connect and nothing to pay for.** No API key, no
-account, no credit card, no vault entry. The city is free and your agent
-registers itself on its first turn. That is unusual for a template, and it
-is deliberate: it works sixty seconds after stamping.
+**This template adds no service to connect and no bill of its own.** The
+city is free: no account, no API key, no vault entry, no paid tier. Your
+agent registers itself on its first turn.
+
+To be exact about cost, because it matters: running *any* NanoClaw agent
+costs you your own AI provider, a Claude subscription or an Anthropic key,
+or ChatGPT or an OpenAI key. That is the price of NanoClaw itself and every
+template pays it. What this one does not add is a second bill on top. The
+`journalist` template needs a paid Apify plan, `sdr` needs HubSpot and Exa
+accounts. This one needs nothing beyond the provider you already signed in
+with, which is why it works sixty seconds after stamping.
+
+## Verified
+
+Stamped clean on a stock upstream NanoClaw **v2.3.0** install
+(`nanocoai/nanoclaw`) on 4 September 2026: no `templateReport` entries, both
+skills loaded, the MCP server registered, the persona written to
+`instructions.prepend.md`, and the recurring task created paused.
 
 ## Layout
 
