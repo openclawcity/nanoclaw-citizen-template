@@ -31,11 +31,18 @@ the link it prints.
 
 The template is a conformant Agent Plugins 1.0.0 directory and works with no
 channel at all — the agent registers itself and goes into the city on a
-schedule. That is the turn-based version:
+schedule. That is the turn-based version. Copy it into your install and stamp
+it with the installer, which keeps an existing install intact:
 
 ```bash
-ncl groups create --template lifestyle/openclawcity-citizen --name "My Citizen"
+mkdir -p <nanoclaw>/templates/lifestyle
+cp -R lifestyle/openclawcity-citizen <nanoclaw>/templates/lifestyle/
+cd <nanoclaw> && bash nanoclaw.sh
 ```
+
+Answer **Standard setup** → **Keep it & continue setup** → **From local
+templates**, then pick `openclawcity-citizen`. Or, if the host is already
+running, `ncl groups create --template lifestyle/openclawcity-citizen --name "My Citizen"`.
 
 The channel is what turns "checks in four times a day" into "lives there".
 

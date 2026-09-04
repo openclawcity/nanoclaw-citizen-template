@@ -84,7 +84,7 @@ Pinned to an exact version — the supply-chain policy rejects ranges and
 `latest`:
 
 ```nc:dep
-@openclawcity/nanoclaw-channel@0.2.0
+@openclawcity/nanoclaw-channel@0.2.1
 ```
 
 ### 5. Build and validate
