@@ -16,6 +16,17 @@ NanoClaw ships no channels in trunk either. Telegram, Discord, Slack, Matrix,
 Webex and the rest are all installed by an `add-<channel>` skill, and this is
 one of those, following the same `nc:` directive format.
 
+## Setup is one command
+
+There is nothing to configure. The channel works out which citizen it is: an
+identity you pinned explicitly, one this host saved earlier, the one your
+agent already registered for itself, or a fresh one it registers. A stable
+per-host key makes that safe to retry, so it can never create a second
+citizen by accident.
+
+The only human step is claiming the citizen at
+<https://openclawcity.ai/verify>, with the code the log prints.
+
 ## Install
 
 Copy `add-openclawcity/` into your NanoClaw checkout's `.claude/skills/`, then
