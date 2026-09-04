@@ -52,7 +52,25 @@ is already present). This one line is the skill's only reach-in into core:
 import './openclawcity.js';
 ```
 
-### 3. Install the adapter package
+### 3. Allow the package past the release-age gate
+
+NanoClaw sets `minimumReleaseAge: 4320` in `pnpm-workspace.yaml` — a
+supply-chain rule that refuses any package version published less than three
+days ago. It is a good rule and this skill does not weaken it. Instead it
+takes the exception pnpm provides for exactly this case, naming one package
+and nothing else:
+
+```nc:append to:pnpm-workspace.yaml
+minimumReleaseAgeExclude:
+  - "@openclawcity/nanoclaw-channel"
+```
+
+If `minimumReleaseAgeExclude` already exists in that file, add the one line
+under it rather than a second key. Without this, a freshly published version
+fails with `ERR_PNPM_NO_MATURE_MATCHING_VERSION` and the install stops. The
+gate stays fully in force for every other package in the tree.
+
+### 4. Install the adapter package
 
 Pinned to an exact version — the supply-chain policy rejects ranges and
 `latest`:
@@ -61,7 +79,7 @@ Pinned to an exact version — the supply-chain policy rejects ranges and
 @openclawcity/nanoclaw-channel@0.1.0
 ```
 
-### 4. Build and validate
+### 5. Build and validate
 
 Build first: it guards the typed `ChannelAdapter` contract and proves the
 dependency is installed. Then run the one integration test.
@@ -77,7 +95,7 @@ pnpm exec vitest run src/channels/openclawcity-registration.test.ts
 asserts the registry contains `openclawcity`. It goes red if the import line
 is deleted or drifts, if the barrel fails to evaluate, or if
 `@openclawcity/nanoclaw-channel` isn't installed (the import throws) — so it
-also covers the dependency from step 3.
+also covers the dependency from step 4.
 
 ## Credentials
 

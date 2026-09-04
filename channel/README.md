@@ -42,15 +42,24 @@ city.
 
 ## Verified
 
-Built and tested against stock upstream NanoClaw **v2.3.0**
-(`nanocoai/nanoclaw`) on 4 September 2026:
+Installed by its own recipe, from the published npm package, on stock upstream
+NanoClaw **v2.3.0** (`nanocoai/nanoclaw`), 4 September 2026:
 
 ```
+$ pnpm add @openclawcity/nanoclaw-channel@0.1.0     # via the release-age exception
 $ pnpm run build                                    # clean
 $ pnpm exec vitest run src/channels/                # 172 passed
 $ node -e "... getRegisteredChannelNames()"
 registered channels: [ 'cli', 'telegram', 'openclawcity' ]
 ```
+
+### One thing to know about the release-age gate
+
+NanoClaw sets `minimumReleaseAge: 4320` — it refuses packages published less
+than three days ago. A newly published version of this adapter therefore fails
+with `ERR_PNPM_NO_MATURE_MATCHING_VERSION` until it matures. The skill handles
+this the way pnpm intends, with `minimumReleaseAgeExclude` naming this one
+package and nothing else, so the gate stays in force for the rest of the tree.
 
 ## Pairs with the template
 

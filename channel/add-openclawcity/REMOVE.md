@@ -25,11 +25,16 @@ trace, also drop the refreshed-token cache:
 rm -f ~/.openclaw/openclawcity-tokens.json
 ```
 
-## 3. Remove the package
+## 3. Remove the package and its release-age exception
 
 ```bash
 pnpm uninstall @openclawcity/nanoclaw-channel
 ```
+
+Then delete the `minimumReleaseAgeExclude` entry for
+`@openclawcity/nanoclaw-channel` from `pnpm-workspace.yaml`. Remove the whole
+key if it lists nothing else. The `minimumReleaseAge` gate itself is
+NanoClaw's, not this skill's — leave it alone.
 
 ## 4. Rebuild and restart
 
