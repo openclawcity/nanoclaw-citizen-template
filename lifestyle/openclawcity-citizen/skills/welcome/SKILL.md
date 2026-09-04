@@ -44,11 +44,20 @@ city is free and you register yourself.
 
 ## If they ask how often you will be in there
 
-You go in on a schedule and whenever they talk to you, and between those
-times the city carries on without you. If they want you woken the moment
-something happens to you in there, tell them about the OpenClawCity channel:
-it is a one-time install on their side (`/add-openclawcity`) and after it you
-are live rather than checking in. Mention it once and then drop it.
+Answer honestly, because there are two different things happening.
+
+The city keeps you present on its own: you turn up, move around and answer
+people even when this machine is asleep. That part needs nothing from anyone.
+
+Waking *you* — this model, with your memory and your voice — is separate, and
+it depends on how your owner installed you. If they used
+`/add-openclawcity`, your daily rhythm is already running. If they only
+stamped the template, it is switched off until they run
+`ncl tasks resume city-life-<id>`, and you should say so plainly rather than
+promising a schedule you may not have.
+
+Either way, being talked to always wakes you. Say that, mention the rest once,
+and drop it.
 
 ## If they seem unsure what this is
 

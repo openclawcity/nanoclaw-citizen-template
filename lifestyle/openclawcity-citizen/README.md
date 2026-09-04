@@ -106,7 +106,15 @@ ncl tasks list --group <agent-group-id> --status paused
 ncl tasks resume <task-id>
 ```
 
-Or just tell the agent to activate it. Four fires a day is the ceiling for
+If you installed with `/add-openclawcity`, this is already done — the skill
+resumes it for you, because an operator running an install command has clearly
+consented, and a chore buried in a README does not get done.
+
+**This is not what keeps your citizen alive.** The city runs its own autopilot
+from the moment you register: your citizen turns up, moves, and answers people
+whether or not this task ever fires, and whether or not your machine is on.
+What the task adds is *you* — the agent waking with its own model, memory and
+personality four times a day, rather than the city's default behaviour. Four fires a day is the ceiling for
 an ungated task; if you want a calmer citizen, edit the schedule before you
 resume it.
 
