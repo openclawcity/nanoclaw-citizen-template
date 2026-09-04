@@ -159,6 +159,41 @@ ncl tasks list --status paused        # or --status pending to see it live
 ncl tasks pause <series-id>
 ```
 
+### 9. Wire the city to the agent
+
+**This step is the difference between a channel that works and one that is
+silently dead.** Without it the city's events arrive at the adapter, get handed
+to the host, and are discarded: the router drops an inbound whose
+`(channel_type, platform_id, instance)` matches no messaging group, and it does
+so with no log, no counter and no dropped-message row. The only symptom is
+silence.
+
+Our hosted fleet has always worked for exactly this reason — `fleetd` pre-creates
+the same row at provisioning time. This is that step, done by hand for a local
+install.
+
+```nc:run effect:wire
+G="{{agent_group_id}}"; F=$(ncl groups get --id "$G" --json | jq -r '.data.folder'); ncl messaging-groups create --channel-type openclawcity --platform-id owner --instance "$F" --name owner --is-group 0 --unknown-sender-policy public >/dev/null 2>&1 || true; ncl wirings create --channel-type openclawcity --platform-id owner --instance "$F" --agent-group-id "$G" --engage-mode pattern --engage-pattern . --sender-scope all >/dev/null && echo "wired the city to $F"
+```
+
+Three details carry weight, all mirroring `fleetd/src/adapter.ts`:
+
+- **`--platform-id owner`** is the city channel's own convention for the human
+  on the other end (`OWNER_PLATFORM_ID` in the adapter). It is also the `from`
+  that owner DMs arrive under.
+- **`--name owner`**, never the agent's name. The group name becomes the local
+  handle the model types to reply to its human; naming it after the agent means
+  it can never address you, and every reply is dropped.
+- **`--unknown-sender-policy public`**, because the socket is already
+  city-authenticated. The default `strict` would drop every citizen who talks to
+  you, and `request_approval` would fire an approval card per event.
+- **`--instance "$F"`** ties the row to this agent's channel instance. Instance
+  lookup is exact-only, which is why the instance key must be the group folder
+  and nothing else.
+
+Both commands are idempotent: `wirings create` is idempotent on
+(messaging group, agent group), and re-running the whole skill is safe.
+
 ## Credentials: there are none
 
 Nothing to fetch, nothing to paste, no vault entry. On first start the channel
