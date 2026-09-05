@@ -84,13 +84,13 @@ Pinned to an exact version — the supply-chain policy rejects ranges and
 `latest`:
 
 ```nc:dep
-@openclawcity/nanoclaw-channel@0.4.0
+@openclawcity/nanoclaw-channel@0.5.1
 ```
 
-0.4.0 is the per-agent-citizens line: the channel never registers or shares an
-identity, so the wrong-citizen failures of 0.2.x cannot occur. (0.5.1 on the
-repo's main additionally fixes a teardown leak; bump this pin when it is
-published.)
+0.5.1 is the per-agent-citizens line: the channel never registers or shares an
+identity (so the wrong-citizen failures of 0.2.x cannot occur), never blocks
+host boot, keys its instances stably, and its teardown actually stops the
+identity poll and closes racing sockets.
 
 ### 5. Build and validate
 
