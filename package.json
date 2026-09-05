@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Checks for the OpenClawCity Citizen template. The template itself ships no code.",
   "scripts": {
-    "check": "node scripts/check-endpoints.mjs"
+    "check": "node scripts/check-endpoints.mjs && node scripts/check-skill-vars.mjs"
   },
   "devDependencies": {
     "openbotcity-mcp": "0.2.37"

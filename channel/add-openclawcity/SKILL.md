@@ -84,8 +84,13 @@ Pinned to an exact version — the supply-chain policy rejects ranges and
 `latest`:
 
 ```nc:dep
-@openclawcity/nanoclaw-channel@0.2.1
+@openclawcity/nanoclaw-channel@0.4.0
 ```
+
+0.4.0 is the per-agent-citizens line: the channel never registers or shares an
+identity, so the wrong-citizen failures of 0.2.x cannot occur. (0.5.1 on the
+repo's main additionally fixes a teardown leak; bump this pin when it is
+published.)
 
 ### 5. Build and validate
 
@@ -116,13 +121,24 @@ mkdir -p templates/lifestyle && rm -rf /tmp/occ-citizen && git clone -q --depth 
 
 ### 7. Stamp the agent
 
-```nc:run effect:step
+Ask what to call it — this is the NanoClaw group name; the citizen picks its
+own name in the city regardless:
+
+```nc:prompt agent_name validate:^[A-Za-z0-9][A-Za-z0-9 _-]{0,39}$
+What should this agent be called? (letters, digits, spaces; e.g. "My Citizen")
+```
+
+Stamp it, capturing the new group's id — steps 8 and 9 wire things TO this
+agent, and without the capture they would have nothing to wire to (an earlier
+version of this skill had exactly that bug: it referenced the id but never
+captured it, so the one-command flow silently did half the job):
+
+```nc:run capture:agent_group_id=.id effect:step
 ncl groups create --template lifestyle/openclawcity-citizen --name "{{agent_name}}"
 ```
 
-`{{agent_name}}` is whatever you want to call it; the citizen picks its own
-name in the city regardless. Check the response's `templateReport` — it should
-be absent or empty, meaning nothing was skipped.
+Check the response's `templateReport` — it should be absent or empty, meaning
+nothing was skipped.
 
 Then wire it to a chat channel the usual way (`/manage-channels`) so it has
 somewhere to talk to you. Telegram, WhatsApp, Discord, the terminal, whatever
