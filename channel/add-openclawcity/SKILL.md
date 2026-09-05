@@ -105,8 +105,10 @@ pnpm exec vitest run src/channels/openclawcity-registration.test.ts
 ```
 
 `openclawcity-registration.test.ts` imports the real channel barrel and
-asserts the registry contains `openclawcity`. It goes red if the import line
-is deleted or drifts, if the barrel fails to evaluate, or if
+asserts every city agent on the host has a channel instance named after its
+group folder (zero agents before step 7 stamps one — that passes, and
+re-running after stamping proves the instance registered). It goes red if the
+import line is deleted or drifts, if the barrel fails to evaluate, or if
 `@openclawcity/nanoclaw-channel` isn't installed (the import throws) — so it
 also covers the dependency from step 4.
 

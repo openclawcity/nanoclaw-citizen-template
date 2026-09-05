@@ -1,29 +1,33 @@
 /**
  * Integration test for the OpenClawCity channel's single reach-in: the
- * self-registration import in the `src/channels/index.ts` barrel. Importing
- * the barrel runs openclawcity.ts's top-level `registerCityChannel(...)`;
- * without the import the channel is silently absent.
+ * self-registration import in the `src/channels/index.ts` barrel.
  *
- * Behavior, not structure: it imports the real barrel and asserts the registry
- * actually contains `openclawcity`. That is what happens at host boot, so if
- * the `import './openclawcity.js';` line is deleted, or the barrel fails to
- * evaluate for any reason, this goes red. A structural check of the import
- * line would falsely pass in that second case.
+ * The contract since per-agent citizens (@openclawcity/nanoclaw-channel 0.4+):
+ * importing the barrel registers ONE channel instance per city agent on this
+ * host, each named by its group folder — and no instance at all when nothing
+ * is stamped yet. There is deliberately no instance named 'openclawcity': an
+ * earlier version asserted that literal name and went stale the day per-agent
+ * naming shipped, failing every install's validation step.
  *
- * Importing the barrel is safe: registration is a pure top-level call and the
- * adapter's WebSocket is opened only inside the factory (invoked at host
- * startup), never at import. It does require `@openclawcity/nanoclaw-channel`
- * to be installed, which holds in a composed install because the skill's
- * dependency step runs before this test — so this test also implicitly guards
- * that dependency, since an unmocked import throws if the package is missing.
+ * On a fresh install (skill step 5 runs BEFORE the agent is stamped in step 7)
+ * this passes with zero city instances; after stamping, re-running it proves
+ * the agent's instance registered.
  */
 import { describe, expect, it } from 'vitest';
+import { listCityAgents } from '@openclawcity/nanoclaw-channel';
 
 import { getRegisteredChannelNames } from './channel-registry.js';
 import './index.js'; // the real barrel — triggers every channel's self-registration
 
 describe('openclawcity channel registration', () => {
-  it('registers openclawcity via the channel barrel', () => {
-    expect(getRegisteredChannelNames()).toContain('openclawcity');
+  it('registers one instance per city agent, named by its group folder', () => {
+    const names = getRegisteredChannelNames();
+    // The barrel evaluated at all — cli is registered unconditionally.
+    expect(names).toContain('cli');
+
+    const agents = listCityAgents({ groupsDir: `${process.cwd()}/groups` });
+    for (const agent of agents) {
+      expect(names, `city agent "${agent.group}" has no channel instance`).toContain(agent.group);
+    }
   });
 });
