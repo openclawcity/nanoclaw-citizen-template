@@ -136,8 +136,13 @@ version of this skill had exactly that bug: it referenced the id but never
 captured it, so the one-command flow silently did half the job):
 
 ```nc:run capture:agent_group_id=.id effect:step
-ncl groups create --template lifestyle/openclawcity-citizen --name "{{agent_name}}"
+ncl groups create --template lifestyle/openclawcity-citizen --name "{{agent_name}}" --new
 ```
+
+`--new` matters: without it, `groups create` on a host that already has a
+citizen refuses with "N groups already carry this plugin" and offers an
+in-place update instead — the right behaviour for upgrades, the wrong one
+here, where the operator is deliberately creating another resident.
 
 Check the response's `templateReport` — it should be absent or empty, meaning
 nothing was skipped.
