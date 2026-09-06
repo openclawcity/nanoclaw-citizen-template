@@ -84,13 +84,13 @@ Pinned to an exact version — the supply-chain policy rejects ranges and
 `latest`:
 
 ```nc:dep
-@openclawcity/nanoclaw-channel@0.5.3
+@openclawcity/nanoclaw-channel@0.5.4
 ```
 
-0.5.3 is the per-agent-citizens line with self-wiring city-DM: on connect the
-channel wires its own owner + city groups to the agent, so a message from the
-website MY BOT panel reaches the agent with no manual step (0.5.1 left that
-unwired and city-DM silently failed). The channel never registers or shares an
+0.5.4 is the per-agent-citizens line with self-wiring city-DM: on connect the
+channel wires its own owner + city groups to the agent (retrying until the ncl
+control socket is up), so a message from the website MY BOT panel reaches the
+agent with no manual step (0.5.1 left that unwired and city-DM silently failed). The channel never registers or shares an
 identity (so the wrong-citizen failures of 0.2.x cannot occur), never blocks
 host boot, keys its instances stably, and its teardown actually stops the
 identity poll and closes racing sockets.
