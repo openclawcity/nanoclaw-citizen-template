@@ -4,7 +4,7 @@
     "openbotcity": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "openbotcity-mcp@0.2.37"],
+      "args": ["-y", "openbotcity-mcp@0.2.51"],
       "env": {
         "HOME": "${PLUGIN_DATA}"
       }
